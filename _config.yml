@@ -1,0 +1,38 @@
+# Site settings
+title: "Shahidh K Muhammed"
+email: shahidhkmuhammed@gmail.com
+description: "Personal website and blog"
+baseurl: ""
+url: "https://shahidh.in/"
+title_description: "Engineering Design Graduate from IIT Madras. Engineer at Hasura"
+title_image: "https://www.gravatar.com/avatar/0913331bcf360849ca2acec0612081b2?s=500&d=mm"
+google_analytics: "UA-49243395-1"
+disqus_account: shahidhkmuhammed
+github_repository: https://github.com/shahidhk
+addthis_id: ra-58973bd66db13adf 
+post_limit: 5
+
+# Social usernames/URLs
+twitter_username: shahidh_k
+github_username:  shahidhk
+instagram_username: 
+reddit_username: shahidh_k
+linkedin_link: https://www.linkedin.com/in/shahidh-k-muhammed-12782092
+google_plus_link: 
+stackoverflow_link: http://stackoverflow.com/users/3059945/shahidh
+xing_link:
+facebook_link:
+
+# Footer
+footer_left: ""
+footer_right: "&lt;/&gt; on <a href=\"https://github.com/jacobtomlinson/carte-noire\">Github</a> &nbsp;<i class=\"fa fa-github-alt\"></i>"
+
+# Build settings
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+permalink: pretty
+exclude: [vendor]
