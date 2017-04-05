@@ -1,3 +1,13 @@
+---
+layout:     post
+title:      Using Kubernetes to power Asia’s largest MOOC
+date:       2017-04-06 00:26:00
+summary:    Last year, we ran a MOOC on application development called IMAD (Introduction to Modern Application Development) which saw over 83,000 registrations.
+registrations.
+categories: blog
+thumbnail: cogs
+---
+
 # Using Kubernetes to power Asia’s largest MOOC
 
 Last year, we ran a MOOC on application development called [IMAD (Introduction
