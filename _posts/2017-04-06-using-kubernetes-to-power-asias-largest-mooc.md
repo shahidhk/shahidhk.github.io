@@ -1,9 +1,8 @@
 ---
 layout:     post
 title:      "Using Kubernetes to power Asia’s largest MOOC"
-date:       2017-04-05 00:26:00
+date:       2017-04-06 00:26:00
 summary:    "Last year, we ran a MOOC on application development called IMAD (Introduction to Modern Application Development) which saw over 83,000 registrations."
-registrations.
 categories: blog
 thumbnail:  cogs
 ---
@@ -14,7 +13,7 @@ Last year, we ran a MOOC on application development called [IMAD (Introduction
 to Modern Application Development)](http://imad.tech/) which saw over **83,000**
 registrations.
 
-#### **The application design**
+## The application design
 
 To begin with, we were sure that asking students to use their machines for
 programming would not be a good idea. The audience for an online course would
@@ -39,7 +38,7 @@ their code on GitHub and running it inside a nodeJS container. Each user would
 be given a subdomain and all requests were to be reverse proxied to the
 corresponding Kubernetes service using nginx.
 
-#### The application workflow
+## The application workflow
 
 <span class="figcaption_hack">Short demo of the online coding platform at
 [https://cloud.imad.hasura.io](https://cloud.imad.hasura.io/)</span>
