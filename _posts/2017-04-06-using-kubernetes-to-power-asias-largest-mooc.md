@@ -6,6 +6,7 @@ summary:    Last year, we ran a MOOC on application development called IMAD (Int
 registrations.
 categories: blog
 thumbnail: cogs
+
 ---
 
 # Using Kubernetes to power Asia’s largest MOOC
