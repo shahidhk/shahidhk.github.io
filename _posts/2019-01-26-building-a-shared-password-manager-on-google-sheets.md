@@ -42,8 +42,6 @@ on Google Sheets as plain text.
 
 How can we not do this? We need to be able to share passwords over Google Sheets, but not as plain text.
 
-## Encrypt password with a shared secret
-
 > Encrypt the password with a shared secret.
 
 If we can use a shared secret and encrypt the password and save the encrypted
