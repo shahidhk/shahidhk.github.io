@@ -113,7 +113,7 @@ is already present in the editor. Once pasted, press <kbd>Ctrl+S</kbd> to save.
 ![Code.gs](/assets/uploads/posts/pwd-manager/code_gs.png)
 
 Next, create a new file called `newEntry.html` by going to the
-`File -> New -> HTML File` menu. Remove the existing HTML add code from
+`File -> New -> HTML File` menu. Remove the existing HTML and add code from
 __[`newEntry.html`](https://github.com/shahidhk/google-sheets-password-manager/blob/master/newEntry.html)__. Press <kbd>Ctrl+S</kbd> to save.
 
 ![newEntry.html](/assets/uploads/posts/pwd-manager/new_entry_html.png)
@@ -155,3 +155,67 @@ to click the Run button agian), a new menu item will appear on the Sheet.
 
 Let's save a password now. Click on `Password Manager -> Add new password`.
 This will open a new dialog box with several input fields.
+
+- __Name__: Name of the website that you're adding.
+- __URL__: Login URL for the website.
+- __Username__
+- __Password__
+- __Shared secret__: This is the key used to encrypt the password, you'll need
+  this key to decrypt it later.
+- __Re-type shared secret__: This is to avoid any typing errors as the input is
+  a password field.
+
+![password manager menu](/assets/uploads/posts/pwd-manager/add_new_password.png)
+
+Once all entries are added, click on the `Save` button.
+
+If there are no errors, the password is encrypted with the secret key
+(shared secret) and is saved into the sheet.
+
+> Encryption happens on the browser. Raw password is not sent to the Sheet.
+
+The password is encrypted using [`SJCL`](https://crypto.stanford.edu/sjcl/) and
+upon encrypting a string with a `key`, it outputs a JSON object:
+
+```json
+{
+  "iv": "YfYlmYRzJBfo0xFGUNQ8Fg==",
+  "v": 1,
+  "iter": 10000,
+  "ks": 128,
+  "ts": 64,
+  "mode": "ccm",
+  "adata": "",
+  "cipher": "aes",
+  "salt": "s0McGyx/dmQ=",
+  "ct": "Xit1P9/DeedTmGf3WZBT4V+HNHIM3jtV0K8="
+}
+```
+
+This object is base64 encoded and saved into the password column.
+
+![password listing](/assets/uploads/posts/pwd-manager/listing.png)
+
+> Each entry can have a different shared secret.
+
+Because each entry can have a different shared secret, you can safely share this
+across your team and only those who you communicate the shared secret wil be
+able to decrypt the corresponding password.
+
+You can also choose to have a common shared secret for team-wide sharing.
+
+### Step 7 - Decrypt a password
+
+To decrypt a password, bring the focus to any column in the target row and then
+click on `Password Manager -> Decrypt password` menu. This will open up the
+decrypt password dialog box. Enter the shared secret and click the `Decrypt` button.
+
+This will reveal the decrypted password in the textbox. You can click the `Copy to
+Clipboard` button if you need to copy the password.
+
+![decrypt password](/assets/uploads/posts/pwd-manager/decrypt_password.png)
+
+## Feedback
+
+The project is open source at [https://github.com/shahidhk/google-sheets-password-manager](https://github.com/shahidhk/google-sheets-password-manager).
+Looking forward for your suggestions and contributions.
