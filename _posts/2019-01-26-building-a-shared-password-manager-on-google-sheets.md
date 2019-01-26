@@ -40,11 +40,12 @@ view and even edit the sheet. Sheets looks like an ideal candidate to share
 passwords. And believe me when I say this, there are teams that share passwords
 on Google Sheets as plain text.
 
-How can we not do this? We need to be able to share passwords over Google Sheets, but not as plain text.
+How can we not do this? We need to be able to share passwords over Google
+Sheets, but not as plain text.
 
 > Encrypt the password with a shared secret.
 
-If we can use a shared secret and encrypt the password and save the encrypted
+If we can use a shared secret to encrypt the password and save the encrypted
 text in the sheet, anyone who is looking for that password can just decrypt
 it using the shared secret. But everyone need to have the encrypt-decrypt tools
 installed. This takes us back to the original problem - everyone need to have
@@ -60,6 +61,97 @@ which can integrate most of Google applications together. It is based on
 JavaScript and runs on the Google Cloud. We'll use Google Apps Script to build
 our encryption-decryption tool into Google Sheets.
 
-# Let's get our hands dirty
+# Let's get started
 
-WIP
+### Step 1 - Create a Google Sheet
+
+This might be the easiest of all. Just create a new Google Sheet. Head to
+[sheets.google.com](https://sheets.google.com) and start a new blank speadsheet.
+
+![Create a new Google Sheet](/assets/uploads/posts/pwd-manager/create_new_sheet.png)
+
+### Step 2 - Add header row
+
+Create the header row for the columns. The headings should be:
+
+- Name
+- URL
+- Username
+- Password
+
+These columns in each row will be managed by our script. You can also
+make the header row bold and freeze it.
+
+You can name the sheet as you wish.
+
+![Google Sheet headers](/assets/uploads/posts/pwd-manager/sheet_headers.png)
+
+### Step 3 - Open the script editor
+
+Next step is to open the scipt editor where we will write the code 
+required for our tool.
+
+Click on `Tools -> Script Editor` on the menubar. This will open up
+the script editor in a new tab.
+
+![Google Script Editor](/assets/uploads/posts/pwd-manager/scripts_home.png)
+
+Give the script an appropriate name. This script is linked to the
+sheet now. All changes saved here will be available later also.
+
+### Step 4 - Create files
+
+I have open sourced the code required for the tool at [`shahidhk/google-sheets-password-manager`](https://github.com/shahidhk/google-sheets-password-manager).
+You can copy the script files one by one to the script editor window.
+
+`Code.gs` is the main Apps script file. All functions that interact with
+the Google Sheets are written here. You can get it from __[`Code.gs`](https://github.com/shahidhk/google-sheets-password-manager/blob/master/Code.gs)__
+on GitHub and paste it into the editor window. You can remove the function that
+is already present in the editor. Once pasted, press <kbd>Ctrl+S</kbd> to save.
+
+
+![Code.gs](/assets/uploads/posts/pwd-manager/code_gs.png)
+
+Next, create a new file called `newEntry.html` by going to the
+`File -> New -> HTML File` menu. Remove the existing HTML add code from
+__[`newEntry.html`](https://github.com/shahidhk/google-sheets-password-manager/blob/master/newEntry.html)__. Press <kbd>Ctrl+S</kbd> to save.
+
+![newEntry.html](/assets/uploads/posts/pwd-manager/new_entry_html.png)
+
+Similarly, create new files and copy contents from
+__[`decryptPassword.html`](https://github.com/shahidhk/google-sheets-password-manager/blob/master/decryptPassword.html)__ and
+__[`styles.html`](https://github.com/shahidhk/google-sheets-password-manager/blob/master/styles.html)__.
+
+We have the following files in our script editor now:
+
+1. `Code.gs`
+2. `newEntry.html`
+3. `decryptPassword.html`
+4. `styles.html`
+
+### Step 5 - Run the script
+
+Open `Code.gs` and use the `Select function` dropdown on the toolbar to select
+the `onOpen` function. This function is executed everytime the the Google Sheet
+is opened. Click on the `Run` button (play icon) next to the dropdown to run
+the function.
+
+![run function](/assets/uploads/posts/pwd-manager/run_function.png)
+
+You will now be prompted to grant permissions for the script to access the sheet.
+If you get a "This app isn't verified" screen, you can safely over-ride by
+clicking the "Advanced" link at the bottom as you're the developer for the app
+(since you just copy pasted the code).
+
+_I'm not saying copy pasting the code is safe, I am assuming you can go through
+couple of lines of code and figure out if it's doing something fishy._
+
+Once you allow the permission request and the function is ran (you might need
+to click the Run button agian), a new menu item will appear on the Sheet.
+
+![password manager menu](/assets/uploads/posts/pwd-manager/pwd_mgr_menu.png)
+
+### Step 6 - Add a password
+
+Let's save a password now. Click on `Password Manager -> Add new password`.
+This will open a new dialog box with several input fields.
