@@ -31,6 +31,7 @@ footer_right: "&lt;/&gt; on <a href=\"https://github.com/shahidhk/shahidhk.githu
 markdown: kramdown
 
 kramdown:
+  auto_ids: true # Auto-generate ID's for headings
   input: GFM
   syntax_highlighter: rouge
 
