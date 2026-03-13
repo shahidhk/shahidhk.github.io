@@ -1,0 +1,28 @@
+---
+layout: layout
+title: "Shahidh Muhammed - Blog"
+---
+
+<section class="glass-panel" style="margin-top: 2rem;">
+  <h1 style="font-size: 2.5rem; margin-bottom: 2rem;"><i class="fa-solid fa-pen-nib text-gradient" style="margin-right: 15px;"></i>Blog Posts</h1>
+  
+  <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+    {% for post in site.posts %}
+    <a href="{{ post.url }}" style="text-decoration: none;">
+      <article style="padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; transition: var(--transition-smooth);">
+        <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-primary);">{{ post.title }}</h2>
+        <div class="subtitle" style="font-size: 0.9rem;">
+          <i class="fa-regular fa-calendar" style="margin-right: 8px;"></i>{{ post.date | date: "%B %d, %Y" }}
+        </div>
+      </article>
+      <style>
+        article:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+          border-color: rgba(56, 189, 248, 0.3) !important;
+          transform: translateX(5px);
+        }
+      </style>
+    </a>
+    {% endfor %}
+  </div>
+</section>

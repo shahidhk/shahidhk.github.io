@@ -1,49 +1,104 @@
 ---
-layout: default
-make-smaller-titles: true
+layout: layout
+title: "Shahidh Muhammed - Profile"
 ---
 
-
-<div class="container-fluid index">
-    <div class="row">
-
-        <div class="col-md-12 main content-panel">
-
-            <div class="gravatar">
-                <img src="{{ site.title_image }}" class="img-circle about-image" height="150" width="150" alt="{{ site.title }}" />
-            </div>
-
-            <h1 class="header author-header" itemprop="headline">{{ site.title }}</h1>
-
-            <div class="author-text">
-                {{ site.title_description }}
-            </div>
-
-            {% include social_links.html %}
-          </div>
-          <div class="col-md-12 main content-panel">
-
-            <div class="articles">
-
-              <h2>Latest Articles</h2>
-
-              <ul>
-                  {% for post in site.posts limit: site.post_limit %}
-
-                      <li>
-                          <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-                          <small class="hidden-xs">{{ post.date | date: "%B %-d, %Y" }}</small>
-                      </li>
-
-                  {% endfor %}
-                  <li>
-                      <small><i><a href="{{ site.baseurl }}/posts/">more...</a></i></small>
-                  </li>
-              </ul>
-
-            </div>
-
-        </div>
-
+<section class="glass-panel" style="margin-top: 2rem; position: relative; overflow: hidden;">
+  <!-- Subtle background glow -->
+  <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(56, 189, 248, 0.2); filter: blur(60px); border-radius: 50%; z-index: 0;"></div>
+  
+  <div class="flex-row" style="position: relative; z-index: 1;">
+    <div style="flex: 0 0 200px; text-align: center;">
+      <!-- Use the existing photo, properly styled -->
+      <img src="/images/saarang_dp_bw.jpg" alt="Shahidh Muhammed" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 4px solid rgba(255,255,255,0.1); box-shadow: var(--glass-shadow);" />
     </div>
+    <div class="flex-col" style="flex: 1;">
+      <h1 style="font-size: 3rem; margin-bottom: 0;">Shahidh <span class="text-gradient">Muhammed</span></h1>
+      <h2 class="subtitle" style="margin-top: -0.5rem; font-size: 1.25rem;">Director of Engineering @ PromptQL (Hasura)</h2>
+      <p style="margin-top: 1rem; font-size: 1.05rem; max-width: 600px; color: var(--text-secondary);">
+        Hello! I'm an engineering leader and nocturnal coder. Currently leading Platform engineering at PromptQL by Hasura. From IIT Madras to building enterprise graphQL systems, I'm passionate about scalable architecture and deep tech execution.
+      </p>
+      
+      <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+        <a href="mailto:shahidhkmuhammed@gmail.com" class="skill-pill" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+          <i class="fa-solid fa-envelope"></i> Email Me
+        </a>
+        <a href="https://www.linkedin.com/in/shahidh-k-muhammed/" target="_blank" class="skill-pill" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+          <i class="fa-brands fa-linkedin"></i> LinkedIn
+        </a>
+        <a href="https://github.com/shahidhk" target="_blank" class="skill-pill" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+          <i class="fa-brands fa-github"></i> GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="flex-row" style="align-items: flex-start; margin-top: 2rem;">
+  
+  <!-- Experience Timeline -->
+  <section class="glass-panel" style="flex: 2;">
+    <h2 style="margin-bottom: 2rem; font-size: 1.75rem;"><i class="fa-solid fa-briefcase text-gradient" style="margin-right: 10px;"></i>Experience</h2>
+    
+    <div class="timeline-item">
+      <h3 style="font-size: 1.25rem;">Director of Engineering, PromptQL</h3>
+      <div class="subtitle" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Jul 2022 - Present | San Francisco, CA</div>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">Leading Platform engineering at PromptQL (Hasura).</p>
+    </div>
+    
+    <div class="timeline-item">
+      <h3 style="font-size: 1.25rem;">Engineering Manager & Architect, Hasura Cloud</h3>
+      <div class="subtitle" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Jan 2020 - Jul 2022 | Bengaluru, India</div>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">Managed the engineering team responsible for Hasura Cloud infrastructure and platform features.</p>
+    </div>
+    
+    <div class="timeline-item">
+      <h3 style="font-size: 1.25rem;">Technical Lead & Architect</h3>
+      <div class="subtitle" style="font-size: 0.9rem; margin-bottom: 0.5rem;">May 2019 - Jan 2020 | Bengaluru, India</div>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">Led the development of Hasura Pro Enterprise products.</p>
+    </div>
+    
+    <div class="timeline-item" style="padding-bottom: 0;">
+      <h3 style="font-size: 1.25rem;">Senior Software Engineer</h3>
+      <div class="subtitle" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Jul 2017 - May 2019 | Bengaluru, India</div>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">Core contributor to Hasura GraphQL Engine, Gitkube, and Graphqurl.</p>
+    </div>
+  </section>
+  
+  <!-- Sidebar (Education & Skills) -->
+  <div class="flex-col" style="flex: 1; gap: 2rem;">
+    <!-- Education -->
+    <section class="glass-panel">
+      <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;"><i class="fa-solid fa-graduation-cap text-gradient" style="margin-right: 10px;"></i>Education</h2>
+      <h3 style="font-size: 1.1rem;">Indian Institute of Technology, Madras</h3>
+      <div class="subtitle" style="font-size: 0.85rem; margin-bottom: 0.5rem;">2012 - 2017</div>
+      <p style="color: var(--text-secondary); font-size: 0.9rem;">Integrated B.Tech & M.Tech in Engineering Design.</p>
+    </section>
+    
+    <!-- Top Skills -->
+    <section class="glass-panel">
+      <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;"><i class="fa-solid fa-code text-gradient" style="margin-right: 10px;"></i>Top Skills</h2>
+      <div>
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">GraphQL</span>
+        <span class="skill-pill">Engineering Leadership</span>
+        <span class="skill-pill">Platform Architecture</span>
+        <span class="skill-pill">Product Design</span>
+        <span class="skill-pill">Cloud Infrastructure</span>
+      </div>
+    </section>
+    
+    <!-- Advising -->
+    <section class="glass-panel">
+      <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;"><i class="fa-solid fa-lightbulb text-gradient" style="margin-right: 10px;"></i>Advisory</h2>
+      <div style="margin-bottom: 1rem;">
+        <h3 style="font-size: 1.1rem;">Crink.App</h3>
+        <div class="subtitle" style="font-size: 0.85rem;">Advisor (Mar 2022 - Present)</div>
+      </div>
+      <div>
+        <h3 style="font-size: 1.1rem;">Blend-ed</h3>
+        <div class="subtitle" style="font-size: 0.85rem;">Advisor (Jun 2021 - Present)</div>
+      </div>
+    </section>
+  </div>
 </div>
