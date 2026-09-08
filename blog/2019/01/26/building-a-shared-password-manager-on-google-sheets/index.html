@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building a shared password manager on Google Sheets — Shahidh K Muhammed</title>
+<meta name="description" content="Personal website and blog">
+
+<link rel="stylesheet" href="/css/blog.css">
+<link rel="alternate" type="application/rss+xml" title="Shahidh K Muhammed" href="/feed.xml">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/favicons/manifest.json">
+<link rel="shortcut icon" href="/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
+<meta name="msapplication-config" content="/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+</head>
+  <body>
+    <nav class="site-nav">
+  <a href="/">home</a>
+  <a href="/blog/">blog</a>
+  <a href="/posts/">all posts</a>
+  <a href="/posts-by-categories/">categories</a>
+  <a href="/search/">search</a>
+  <a href="/feed.xml">feed</a>
+</nav>
+    <div class="blog-page">
+      <aside class="sidebar">
+        <div class="site-name">shahidh.in</div>
+        <nav aria-label="Blog sections">
+          <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/blog/">blog</a></li>
+            <li><a href="/posts/">all posts</a></li>
+            <li><a href="/posts-by-categories/">categories</a></li>
+            <li><a href="/search/">search</a></li>
+            <li><a href="/feed.xml">feed</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <main class="main-column">
+        
+
+<div class="post-header">
+  <h1>Building a shared password manager on Google Sheets</h1>
+  <p class="post-meta">
+    January 26, 2019
+    
+    · <a href="/posts-by-categories/#blog-ref">blog</a>
+    
+    · 7 minute read
+  </p>
+</div>
+
+<div class="profile-section">
+  <div class="article-body">
+    <h1 id="introduction">Introduction</h1>
+
+<p>Passowrd managers have beome an inevitable part of our online lives. The only
+way not to reuse a pasword is to ue a password manager. I am a big fan of
+<a href="https://lastpass.com/">LastPass</a>. Have been using for the past couple of years
+and it has been great.</p>
+
+<p>While working with a team, there might be accounts that are shared, and what
+people typically do is to have a pattern to genereate passwords for these
+accounts. For e.g., <code class="language-plaintext highlighter-rouge">contact@company.com</code> might have a password like
+<code class="language-plaintext highlighter-rouge">#SecretCONTACTPassw0rd123$%^</code> and <code class="language-plaintext highlighter-rouge">support@company.com</code> might
+have <code class="language-plaintext highlighter-rouge">#SecretSUPPORTPassw0rd123$%^</code>. This is a super insecure
+way for setting passwords and most times people do this because they don’t
+want to get in to the mess of sharing passwords over a password manager.</p>
+
+<p>Sharing over LastPass needs the user to know the other person’s email address
+and the receiving person need to have a LastPass account and have it installed.
+While I am a strong advocate of using password managers, I understand that
+everyone in a team might not be comfortable in doing so. Sure, they need to 
+be educated and should be made aware of the threats of not using a manager.
+But that is not the only difficulty, the other person might be using a
+different password manager. Now, you’ll have to resort to sharing plain-text
+password over insecure channels.</p>
+
+<h2 id="google-sheets">Google Sheets</h2>
+
+<p>Enter Google Sheets. Like all the other Google Suite of applications, Sheets
+can be shared across a team. If your organisation is a GSuite customer, the
+visibility can be set accordingly such that everyone in the organisation can 
+view and even edit the sheet. Sheets looks like an ideal candidate to share 
+passwords. And believe me when I say this, there are teams that share passwords
+on Google Sheets as plain text.</p>
+
+<p>How can we not do this? We need to be able to share passwords over Google
+Sheets, but not as plain text.</p>
+
+<blockquote>
+  <p>Encrypt the password with a shared secret.</p>
+</blockquote>
+
+<p>If we can use a shared secret to encrypt the password and save the encrypted
+text in the sheet, anyone who is looking for that password can just decrypt
+it using the shared secret. But everyone need to have the encrypt-decrypt tools
+installed. This takes us back to the original problem - everyone need to have
+the password manager installed.</p>
+
+<p>What if we could do this in Google Sheets itself?</p>
+
+<h2 id="google-apps-script">Google Apps Script</h2>
+
+<p>Google released <a href="https://developers.google.com/apps-script/">Apps Script</a> in
+2009 as scripting-language for light-weight application development platform
+which can integrate most of Google applications together. It is based on
+JavaScript and runs on the Google Cloud. We’ll use Google Apps Script to build
+our encryption-decryption tool into Google Sheets.</p>
+
+<h1 id="lets-get-started">Let’s get started</h1>
+
+<h3 id="step-1---create-a-google-sheet">Step 1 - Create a Google Sheet</h3>
+
+<p>This might be the easiest of all. Just create a new Google Sheet. Head to
+<a href="https://sheets.google.com">sheets.google.com</a> and start a new blank speadsheet.</p>
+
+<p><img src="/assets/uploads/posts/pwd-manager/create_new_sheet.png" alt="Create a new Google Sheet" /></p>
+
+<h3 id="step-2---add-header-row">Step 2 - Add header row</h3>
+
+<p>Create the header row for the columns. The headings should be:</p>
+
+<ul>
+  <li>Name</li>
+  <li>URL</li>
+  <li>Username</li>
+  <li>Password</li>
+</ul>
+
+<p>These columns in each row will be managed by our script. You can also
+make the header row bold and freeze it.</p>
+
+<p>You can name the sheet as you wish.</p>
+
+<p><img src="/assets/uploads/posts/pwd-manager/sheet_headers.png" alt="Google Sheet headers" /></p>
+
+<h3 id="step-3---open-the-script-editor">Step 3 - Open the script editor</h3>
+
+<p>Next step is to open the scipt editor where we will write the code 
+required for our tool.</p>
+
+<p>Click on <code class="language-plaintext highlighter-rouge">Tools -&gt; Script Editor</code> on the menubar. This will open up
+the script editor in a new tab.</p>
+
+<p><img src="/assets/uploads/posts/pwd-manager/scripts_home.png" alt="Google Script Editor" /></p>
+
+<p>Give the script an appropriate name. This script is linked to the
+sheet now. All changes saved here will be available later also.</p>
+
+<h3 id="step-4---create-files">Step 4 - Create files</h3>
+
+<p>I have open sourced the code required for the tool at <a href="https://github.com/shahidhk/google-sheets-password-manager"><code class="language-plaintext highlighter-rouge">shahidhk/google-sheets-password-manager</code></a>.
+You can copy the script files one by one to the script editor window.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Code.gs</code> is the main Apps script file. All functions that interact with
+the Google Sheets are written here. You can get it from <strong><a href="https://github.com/shahidhk/google-sheets-password-manager/blob/master/Code.gs"><code class="language-plaintext highlighter-rouge">Code.gs</code></a></strong>
+on GitHub and paste it into the editor window. You can remove the function that
+is already present in the editor. Once pasted, press <kbd>Ctrl+S</kbd> to save.</p>
+
+<p><img src="/assets/uploads/posts/pwd-manager/code_gs.png" alt="Code.gs" /></p>
+
+<p>Next, create a new file called <code class="language-plaintext highlighter-rouge">newEntry.html</code> by going to the
+<code class="language-plaintext highlighter-rouge">File -&gt; New -&gt; HTML File</code> menu. Remove the existing HTML and add code from
+<strong><a href="https://github.com/shahidhk/google-sheets-password-manager/blob/master/newEntry.html"><code class="language-plaintext highlighter-rouge">newEntry.html</code></a></strong>. Press <kbd>Ctrl+S</kbd> to save.</p>
+
+<p><img src="/assets/uploads/posts/pwd-manager/new_entry_html.png" alt="newEntry.html" /></p>
+
+<p>Similarly, create new files and copy contents from
+<strong><a href="https://github.com/shahidhk/google-sheets-password-manager/blob/master/decryptPassword.html"><code class="language-plaintext highlighter-rouge">decryptPassword.html</code></a></strong> and
+<strong><a href="https://github.com/shahidhk/google-sheets-password-manager/blob/master/styles.html"><code class="language-plaintext highlighter-rouge">styles.html</code></a></strong>.</p>
+
+<p>We have the following files in our script editor now:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">Code.gs</code></li>
+  <li><code class="language-plaintext highlighter-rouge">newEntry.html</code></li>
+  <li><code class="language-plaintext highlighter-rouge">decryptPassword.html</code></li>
+  <li><code class="language-plaintext highlighter-rouge">styles.html</code></li>
+</ol>
+
+<h3 id="step-5---run-the-script">Step 5 - Run the script</h3>
+
+<p>Open <code class="language-plaintext highlighter-rouge">Code.gs</code> and use the <code class="language-plaintext highlighter-rouge">Select function</code> dropdown on the toolbar to select
+the <code class="language-plaintext highlighter-rouge">onOpen</code> function. This function is executed everytime the the Google Sheet
+is opened. Click on the <code class="language-plaintext highlighter-rouge">Run</code> button (play icon) next to the dropdown to run
+the function.</p>
+
+<p><img src="/assets/uploads/posts/pwd-manager/run_function.png" alt="run function" /></p>
+
+<p>You will now be prompted to grant permissions for the script to access the sheet.
+If you get a “This app isn’t verified” screen, you can safely over-ride by
+clicking the “Advanced” link at the bottom as you’re the developer for the app
+(since you just copy pasted the code).</p>
+
+<p><em>I’m not saying copy pasting the code is safe, I am assuming you can go through
+couple of lines of code and figure out if it’s doing something fishy.</em></p>
+
+<p>Once you allow the permission request and the function is ran (you might need
+to click the Run button agian), a new menu item will appear on the Sheet.</p>
+
+<p><img src="/assets/uploads/posts/pwd-manager/pwd_mgr_menu.png" alt="password manager menu" /></p>
+
+<h3 id="step-6---add-a-password">Step 6 - Add a password</h3>
+
+<p>Let’s save a password now. Click on <code class="language-plaintext highlighter-rouge">Password Manager -&gt; Add new password</code>.
+This will open a new dialog box with several input fields.</p>
+
+<ul>
+  <li><strong>Name</strong>: Name of the website that you’re adding.</li>
+  <li><strong>URL</strong>: Login URL for the website.</li>
+  <li><strong>Username</strong></li>
+  <li><strong>Password</strong></li>
+  <li><strong>Shared secret</strong>: This is the key used to encrypt the password, you’ll need
+this key to decrypt it later.</li>
+  <li><strong>Re-type shared secret</strong>: This is to avoid any typing errors as the input is
+a password field.</li>
+</ul>
+
+<p><img src="/assets/uploads/posts/pwd-manager/add_new_password.png" alt="password manager menu" /></p>
+
+<p>Once all entries are added, click on the <code class="language-plaintext highlighter-rouge">Save</code> button.</p>
+
+<p>If there are no errors, the password is encrypted with the secret key
+(shared secret) and is saved into the sheet.</p>
+
+<blockquote>
+  <p>Encryption happens on the browser. Raw password is not sent to the Sheet.</p>
+</blockquote>
+
+<p>The password is encrypted using <a href="https://crypto.stanford.edu/sjcl/"><code class="language-plaintext highlighter-rouge">SJCL</code></a> and
+upon encrypting a string with a <code class="language-plaintext highlighter-rouge">key</code>, it outputs a JSON object:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"iv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YfYlmYRzJBfo0xFGUNQ8Fg=="</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"v"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"iter"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ks"</span><span class="p">:</span><span class="w"> </span><span class="mi">128</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ts"</span><span class="p">:</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ccm"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"adata"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"cipher"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aes"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"salt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s0McGyx/dmQ="</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ct"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Xit1P9/DeedTmGf3WZBT4V+HNHIM3jtV0K8="</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This object is base64 encoded and saved into the password column.</p>
+
+<p><img src="/assets/uploads/posts/pwd-manager/listing.png" alt="password listing" /></p>
+
+<blockquote>
+  <p>Each entry can have a different shared secret.</p>
+</blockquote>
+
+<p>Because each entry can have a different shared secret, you can safely share this
+across your team and only those who you communicate the shared secret wil be
+able to decrypt the corresponding password.</p>
+
+<p>You can also choose to have a common shared secret for team-wide sharing.</p>
+
+<h3 id="step-7---decrypt-a-password">Step 7 - Decrypt a password</h3>
+
+<p>To decrypt a password, bring the focus to any column in the target row and then
+click on <code class="language-plaintext highlighter-rouge">Password Manager -&gt; Decrypt password</code> menu. This will open up the
+decrypt password dialog box. Enter the shared secret and click the <code class="language-plaintext highlighter-rouge">Decrypt</code> button.</p>
+
+<p>This will reveal the decrypted password in the textbox. You can click the <code class="language-plaintext highlighter-rouge">Copy to
+Clipboard</code> button if you need to copy the password.</p>
+
+<p><img src="/assets/uploads/posts/pwd-manager/decrypt_password.png" alt="decrypt password" /></p>
+
+<h2 id="feedback">Feedback</h2>
+
+<p>The project is open source at <a href="https://github.com/shahidhk/google-sheets-password-manager">https://github.com/shahidhk/google-sheets-password-manager</a>.
+Looking forward for your suggestions and contributions.</p>
+
+  </div>
+
+  
+
+  
+  <div class="feedback">
+    I <i>love</i> feedback. Let me know what you think of this article in the comments below!
+  </div>
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+  
+
+  <div class="post-nav">
+    
+    <div>
+      <a href="/blog/2017/04/05/using-kubernetes-to-power-asias-largest-mooc/">← Using Kubernetes to power Asia’s largest MOOC</a>
+      <p class="date">Published April 5, 2017</p>
+    </div>
+    
+    
+  </div>
+</div>
+
+
+<script type="text/javascript">
+function disqus_config() { this.experiment.enable_scroll_container = true; }
+var disqus_shortname = "shahidhkmuhammed";
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+      </main>
+    </div>
+    <footer class="site-footer">
+  <a href="https://twitter.com/shahidh_k" target="_blank" rel="noopener noreferrer">twitter</a>
+  <a href="https://github.com/shahidhk" target="_blank" rel="noopener noreferrer">github</a>
+  <a href="mailto:hi@shahidh.in">email</a>
+</footer>
+  </body>
+</html>

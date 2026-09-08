@@ -1,26 +1,76 @@
----
-layout: default
-title: "404"
-permalink: /404.html
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Shahidh K Muhammed</title>
+<meta name="description" content="Personal website and blog">
 
-<div class="profile-section">
+<link rel="stylesheet" href="/css/blog.css">
+<link rel="alternate" type="application/rss+xml" title="Shahidh K Muhammed" href="/feed.xml">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/favicons/manifest.json">
+<link rel="shortcut icon" href="/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
+<meta name="msapplication-config" content="/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+</head>
+  <body>
+    <nav class="site-nav">
+  <a href="/">home</a>
+  <a href="/blog/">blog</a>
+  <a href="/posts/">all posts</a>
+  <a href="/posts-by-categories/">categories</a>
+  <a href="/search/">search</a>
+  <a href="/feed.xml">feed</a>
+</nav>
+    <div class="blog-page">
+      <aside class="sidebar">
+        <div class="site-name">shahidh.in</div>
+        <nav aria-label="Blog sections">
+          <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/blog/">blog</a></li>
+            <li><a href="/posts/">all posts</a></li>
+            <li><a href="/posts-by-categories/">categories</a></li>
+            <li><a href="/search/">search</a></li>
+            <li><a href="/feed.xml">feed</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <main class="main-column">
+        <div class="profile-section">
   <div class="post-header">
     <h1>404</h1>
     <p>sorry, this page doesn't seem to exist.</p>
   </div>
   <div class="article-body">
     <p>
-      <a href="{{ site.baseurl }}/">home</a> ·
-      <a href="{{ site.baseurl }}/blog/">blog</a> ·
-      <a href="{{ site.baseurl }}/posts/">all posts</a> ·
-      <a href="{{ site.baseurl }}/search/">search</a>
+      <a href="/">home</a> ·
+      <a href="/blog/">blog</a> ·
+      <a href="/posts/">all posts</a> ·
+      <a href="/search/">search</a>
     </p>
-    {% for post in site.posts limit:1 %}
+    
     <p style="margin-top: 16px;">
-      suggested article: <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a><br>
-      <small style="color: var(--muted);">{% if post.summary %}{{ post.summary | strip_html | truncatewords: 30 }}{% else %}{{ post.excerpt | strip_html | truncatewords: 30 }}{% endif %}</small>
+      suggested article: <a href="/blog/2019/01/26/building-a-shared-password-manager-on-google-sheets/">Building a shared password manager on Google Sheets</a><br>
+      <small style="color: var(--muted);">Using Google Apps script, Google Sheets can be turned into a shared password manager, especially helpful to store passwords for shared accounts in a team</small>
     </p>
-    {% endfor %}
+    
   </div>
 </div>
+      </main>
+    </div>
+    <footer class="site-footer">
+  <a href="https://twitter.com/shahidh_k" target="_blank" rel="noopener noreferrer">twitter</a>
+  <a href="https://github.com/shahidhk" target="_blank" rel="noopener noreferrer">github</a>
+  <a href="mailto:hi@shahidh.in">email</a>
+</footer>
+  </body>
+</html>

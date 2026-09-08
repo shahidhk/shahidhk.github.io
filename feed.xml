@@ -1,29 +1,345 @@
----
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.title | xml_escape }}</title>
-    <description>{{ site.description | xml_escape }}</description>
-    <link>{{ site.url }}{{ site.baseurl }}/</link>
-    <atom:link href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml" />
-    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
-    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
-    <generator>Jekyll v{{ jekyll.version }}</generator>
-    {% for post in site.posts limit:10 %}
+    <title>Shahidh K Muhammed</title>
+    <description>Personal website and blog</description>
+    <link>https://shahidh.in/</link>
+    <atom:link href="https://shahidh.in/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Tue, 08 Sep 2026 05:41:18 +0000</pubDate>
+    <lastBuildDate>Tue, 08 Sep 2026 05:41:18 +0000</lastBuildDate>
+    <generator>Jekyll v4.4.1</generator>
+    
       <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.content | xml_escape }}</description>
-        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-        <link>{{ post.url | prepend: site.baseurl | prepend: site.url }}</link>
-        <guid isPermaLink="true">{{ post.url | prepend: site.baseurl | prepend: site.url }}</guid>
-        {% for tag in post.tags %}
-        <category>{{ tag | xml_escape }}</category>
-        {% endfor %}
-        {% for cat in post.categories %}
-        <category>{{ cat | xml_escape }}</category>
-        {% endfor %}
+        <title>Building a shared password manager on Google Sheets</title>
+        <description>&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;Passowrd managers have beome an inevitable part of our online lives. The only
+way not to reuse a pasword is to ue a password manager. I am a big fan of
+&lt;a href=&quot;https://lastpass.com/&quot;&gt;LastPass&lt;/a&gt;. Have been using for the past couple of years
+and it has been great.&lt;/p&gt;
+
+&lt;p&gt;While working with a team, there might be accounts that are shared, and what
+people typically do is to have a pattern to genereate passwords for these
+accounts. For e.g., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;contact@company.com&lt;/code&gt; might have a password like
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#SecretCONTACTPassw0rd123$%^&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;support@company.com&lt;/code&gt; might
+have &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#SecretSUPPORTPassw0rd123$%^&lt;/code&gt;. This is a super insecure
+way for setting passwords and most times people do this because they don’t
+want to get in to the mess of sharing passwords over a password manager.&lt;/p&gt;
+
+&lt;p&gt;Sharing over LastPass needs the user to know the other person’s email address
+and the receiving person need to have a LastPass account and have it installed.
+While I am a strong advocate of using password managers, I understand that
+everyone in a team might not be comfortable in doing so. Sure, they need to 
+be educated and should be made aware of the threats of not using a manager.
+But that is not the only difficulty, the other person might be using a
+different password manager. Now, you’ll have to resort to sharing plain-text
+password over insecure channels.&lt;/p&gt;
+
+&lt;h2 id=&quot;google-sheets&quot;&gt;Google Sheets&lt;/h2&gt;
+
+&lt;p&gt;Enter Google Sheets. Like all the other Google Suite of applications, Sheets
+can be shared across a team. If your organisation is a GSuite customer, the
+visibility can be set accordingly such that everyone in the organisation can 
+view and even edit the sheet. Sheets looks like an ideal candidate to share 
+passwords. And believe me when I say this, there are teams that share passwords
+on Google Sheets as plain text.&lt;/p&gt;
+
+&lt;p&gt;How can we not do this? We need to be able to share passwords over Google
+Sheets, but not as plain text.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Encrypt the password with a shared secret.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If we can use a shared secret to encrypt the password and save the encrypted
+text in the sheet, anyone who is looking for that password can just decrypt
+it using the shared secret. But everyone need to have the encrypt-decrypt tools
+installed. This takes us back to the original problem - everyone need to have
+the password manager installed.&lt;/p&gt;
+
+&lt;p&gt;What if we could do this in Google Sheets itself?&lt;/p&gt;
+
+&lt;h2 id=&quot;google-apps-script&quot;&gt;Google Apps Script&lt;/h2&gt;
+
+&lt;p&gt;Google released &lt;a href=&quot;https://developers.google.com/apps-script/&quot;&gt;Apps Script&lt;/a&gt; in
+2009 as scripting-language for light-weight application development platform
+which can integrate most of Google applications together. It is based on
+JavaScript and runs on the Google Cloud. We’ll use Google Apps Script to build
+our encryption-decryption tool into Google Sheets.&lt;/p&gt;
+
+&lt;h1 id=&quot;lets-get-started&quot;&gt;Let’s get started&lt;/h1&gt;
+
+&lt;h3 id=&quot;step-1---create-a-google-sheet&quot;&gt;Step 1 - Create a Google Sheet&lt;/h3&gt;
+
+&lt;p&gt;This might be the easiest of all. Just create a new Google Sheet. Head to
+&lt;a href=&quot;https://sheets.google.com&quot;&gt;sheets.google.com&lt;/a&gt; and start a new blank speadsheet.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/create_new_sheet.png&quot; alt=&quot;Create a new Google Sheet&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;step-2---add-header-row&quot;&gt;Step 2 - Add header row&lt;/h3&gt;
+
+&lt;p&gt;Create the header row for the columns. The headings should be:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Name&lt;/li&gt;
+  &lt;li&gt;URL&lt;/li&gt;
+  &lt;li&gt;Username&lt;/li&gt;
+  &lt;li&gt;Password&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These columns in each row will be managed by our script. You can also
+make the header row bold and freeze it.&lt;/p&gt;
+
+&lt;p&gt;You can name the sheet as you wish.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/sheet_headers.png&quot; alt=&quot;Google Sheet headers&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;step-3---open-the-script-editor&quot;&gt;Step 3 - Open the script editor&lt;/h3&gt;
+
+&lt;p&gt;Next step is to open the scipt editor where we will write the code 
+required for our tool.&lt;/p&gt;
+
+&lt;p&gt;Click on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Tools -&amp;gt; Script Editor&lt;/code&gt; on the menubar. This will open up
+the script editor in a new tab.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/scripts_home.png&quot; alt=&quot;Google Script Editor&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Give the script an appropriate name. This script is linked to the
+sheet now. All changes saved here will be available later also.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-4---create-files&quot;&gt;Step 4 - Create files&lt;/h3&gt;
+
+&lt;p&gt;I have open sourced the code required for the tool at &lt;a href=&quot;https://github.com/shahidhk/google-sheets-password-manager&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shahidhk/google-sheets-password-manager&lt;/code&gt;&lt;/a&gt;.
+You can copy the script files one by one to the script editor window.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Code.gs&lt;/code&gt; is the main Apps script file. All functions that interact with
+the Google Sheets are written here. You can get it from &lt;strong&gt;&lt;a href=&quot;https://github.com/shahidhk/google-sheets-password-manager/blob/master/Code.gs&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Code.gs&lt;/code&gt;&lt;/a&gt;&lt;/strong&gt;
+on GitHub and paste it into the editor window. You can remove the function that
+is already present in the editor. Once pasted, press &lt;kbd&gt;Ctrl+S&lt;/kbd&gt; to save.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/code_gs.png&quot; alt=&quot;Code.gs&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Next, create a new file called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEntry.html&lt;/code&gt; by going to the
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;File -&amp;gt; New -&amp;gt; HTML File&lt;/code&gt; menu. Remove the existing HTML and add code from
+&lt;strong&gt;&lt;a href=&quot;https://github.com/shahidhk/google-sheets-password-manager/blob/master/newEntry.html&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEntry.html&lt;/code&gt;&lt;/a&gt;&lt;/strong&gt;. Press &lt;kbd&gt;Ctrl+S&lt;/kbd&gt; to save.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/new_entry_html.png&quot; alt=&quot;newEntry.html&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Similarly, create new files and copy contents from
+&lt;strong&gt;&lt;a href=&quot;https://github.com/shahidhk/google-sheets-password-manager/blob/master/decryptPassword.html&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;decryptPassword.html&lt;/code&gt;&lt;/a&gt;&lt;/strong&gt; and
+&lt;strong&gt;&lt;a href=&quot;https://github.com/shahidhk/google-sheets-password-manager/blob/master/styles.html&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;styles.html&lt;/code&gt;&lt;/a&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;We have the following files in our script editor now:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Code.gs&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;newEntry.html&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;decryptPassword.html&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;styles.html&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;step-5---run-the-script&quot;&gt;Step 5 - Run the script&lt;/h3&gt;
+
+&lt;p&gt;Open &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Code.gs&lt;/code&gt; and use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Select function&lt;/code&gt; dropdown on the toolbar to select
+the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;onOpen&lt;/code&gt; function. This function is executed everytime the the Google Sheet
+is opened. Click on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Run&lt;/code&gt; button (play icon) next to the dropdown to run
+the function.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/run_function.png&quot; alt=&quot;run function&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You will now be prompted to grant permissions for the script to access the sheet.
+If you get a “This app isn’t verified” screen, you can safely over-ride by
+clicking the “Advanced” link at the bottom as you’re the developer for the app
+(since you just copy pasted the code).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;I’m not saying copy pasting the code is safe, I am assuming you can go through
+couple of lines of code and figure out if it’s doing something fishy.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you allow the permission request and the function is ran (you might need
+to click the Run button agian), a new menu item will appear on the Sheet.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/pwd_mgr_menu.png&quot; alt=&quot;password manager menu&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;step-6---add-a-password&quot;&gt;Step 6 - Add a password&lt;/h3&gt;
+
+&lt;p&gt;Let’s save a password now. Click on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Password Manager -&amp;gt; Add new password&lt;/code&gt;.
+This will open a new dialog box with several input fields.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Name&lt;/strong&gt;: Name of the website that you’re adding.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;URL&lt;/strong&gt;: Login URL for the website.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Username&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Password&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Shared secret&lt;/strong&gt;: This is the key used to encrypt the password, you’ll need
+this key to decrypt it later.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Re-type shared secret&lt;/strong&gt;: This is to avoid any typing errors as the input is
+a password field.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/add_new_password.png&quot; alt=&quot;password manager menu&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once all entries are added, click on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Save&lt;/code&gt; button.&lt;/p&gt;
+
+&lt;p&gt;If there are no errors, the password is encrypted with the secret key
+(shared secret) and is saved into the sheet.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Encryption happens on the browser. Raw password is not sent to the Sheet.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The password is encrypted using &lt;a href=&quot;https://crypto.stanford.edu/sjcl/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SJCL&lt;/code&gt;&lt;/a&gt; and
+upon encrypting a string with a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;key&lt;/code&gt;, it outputs a JSON object:&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;iv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;YfYlmYRzJBfo0xFGUNQ8Fg==&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;iter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;ks&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;128&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;ts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;mode&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ccm&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;adata&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;cipher&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;aes&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;salt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;s0McGyx/dmQ=&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;ct&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Xit1P9/DeedTmGf3WZBT4V+HNHIM3jtV0K8=&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This object is base64 encoded and saved into the password column.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/listing.png&quot; alt=&quot;password listing&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Each entry can have a different shared secret.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Because each entry can have a different shared secret, you can safely share this
+across your team and only those who you communicate the shared secret wil be
+able to decrypt the corresponding password.&lt;/p&gt;
+
+&lt;p&gt;You can also choose to have a common shared secret for team-wide sharing.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-7---decrypt-a-password&quot;&gt;Step 7 - Decrypt a password&lt;/h3&gt;
+
+&lt;p&gt;To decrypt a password, bring the focus to any column in the target row and then
+click on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Password Manager -&amp;gt; Decrypt password&lt;/code&gt; menu. This will open up the
+decrypt password dialog box. Enter the shared secret and click the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Decrypt&lt;/code&gt; button.&lt;/p&gt;
+
+&lt;p&gt;This will reveal the decrypted password in the textbox. You can click the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Copy to
+Clipboard&lt;/code&gt; button if you need to copy the password.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/pwd-manager/decrypt_password.png&quot; alt=&quot;decrypt password&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;feedback&quot;&gt;Feedback&lt;/h2&gt;
+
+&lt;p&gt;The project is open source at &lt;a href=&quot;https://github.com/shahidhk/google-sheets-password-manager&quot;&gt;https://github.com/shahidhk/google-sheets-password-manager&lt;/a&gt;.
+Looking forward for your suggestions and contributions.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 26 Jan 2019 00:00:00 +0000</pubDate>
+        <link>https://shahidh.in/blog/2019/01/26/building-a-shared-password-manager-on-google-sheets/</link>
+        <guid isPermaLink="true">https://shahidh.in/blog/2019/01/26/building-a-shared-password-manager-on-google-sheets/</guid>
+        
+        
+        <category>blog</category>
+        
       </item>
-    {% endfor %}
+    
+      <item>
+        <title>Using Kubernetes to power Asia’s largest MOOC</title>
+        <description>&lt;p&gt;Last year, we ran a MOOC on application development called &lt;a href=&quot;http://imad.tech/&quot;&gt;IMAD (Introduction
+to Modern Application Development)&lt;/a&gt; which saw over &lt;strong&gt;83,000&lt;/strong&gt;
+registrations.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-application-design&quot;&gt;The application design&lt;/h2&gt;
+
+&lt;p&gt;To begin with, we were sure that asking students to use their machines for
+programming would not be a good idea. The audience for an online course would
+have huge variations in terms of hardware, operating systems etc. Providing
+instructions or guidance for multiple platforms throughout the course would have
+been an operational nightmare.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;But, everybody has a web browser, and we decided to make use of it.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As our main focus was on developing web applications, an immediate requirement
+of a platform for students to publish their applications also became apparent.&lt;/p&gt;
+
+&lt;p&gt;At &lt;a href=&quot;https://hasura.io&quot;&gt;Hasura&lt;/a&gt;, we had been using &lt;a href=&quot;https://kubernetes.io&quot;&gt;Kubernetes&lt;/a&gt;
+for deploying production workloads for
+some time then. Since, we would have needed to provide isolated runtimes for all
+our students to build and deploy their applications, it became clear to us from
+the very beginning that Kubernetes would be the way to go.&lt;/p&gt;
+
+&lt;p&gt;Our plan was to create a web application which lets users write code using a
+browser and deploy it in real-time. After comparing a few different models, we
+decided to create a Kubernetes deployment and service for each user, hosting
+their code on GitHub and running it inside a nodeJS container. Each user would
+be given a subdomain and all requests were to be reverse proxied to the
+corresponding Kubernetes service using nginx.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-application-workflow&quot;&gt;The application workflow&lt;/h2&gt;
+
+&lt;p&gt;Short demo of the online coding platform at &lt;a href=&quot;https://cloud.imad.hasura.io/&quot;&gt;https://cloud.imad.hasura.io&lt;/a&gt;:&lt;/p&gt;
+
+&lt;iframe width=&quot;100%&quot; height=&quot;400&quot; src=&quot;https://www.youtube.com/embed/5bF6wQr_9_Y?ecver=1&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;A user logs in using GitHub and, using &lt;a href=&quot;https://developer.github.com/v3/&quot;&gt;GitHub API v3&lt;/a&gt;, we fork a template repository into the
+user’s GitHub account. Files from this repository are then fetched for the user
+to edit using &lt;a href=&quot;https://ace.c9.io/&quot;&gt;Ace Editor&lt;/a&gt;. All edits made to the files are
+committed to the user’s repository. We eliminated the need to use our own
+storage backend for users’ code as well as gave all students, mostly first time
+developers, a taste of GitHub by doing this. When a user triggers a deployment,
+our API server creates a
+&lt;a href=&quot;https://kubernetes.io/docs/concepts/workloads/controllers/deployment/&quot;&gt;deployment&lt;/a&gt;
+and a
+&lt;a href=&quot;https://kubernetes.io/docs/concepts/services-networking/service/&quot;&gt;service&lt;/a&gt; on a
+dedicated Kubernetes cluster. The deployment has a &lt;a href=&quot;https://kubernetes.io/docs/concepts/storage/volumes/#gitrepo&quot;&gt;gitRepo
+volume&lt;/a&gt;* *with the
+user’s repository, thereby pulling the user’s latest code on to a pre-built
+nodeJS docker image. An nginx
+&lt;a href=&quot;https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/&quot;&gt;daemonset&lt;/a&gt;,
+running on all nodes, directs incoming HTTP traffic to the user’s containers
+based on the subdomain, thereby serving their web-app.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/uploads/posts/imad-arch.png&quot; alt=&quot;System architecture using Kubernetes&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The Kubernetes cluster was initially hosted on Microsoft Azure and then migrated
+to Google Container Engine (&lt;em&gt;effortlessly&lt;/em&gt;).&lt;/p&gt;
+
+&lt;h3 id=&quot;the-result&quot;&gt;The Result&lt;/h3&gt;
+
+&lt;p&gt;Over the duration of the course, we saw participation from &lt;a href=&quot;https://medium.com/@IMAD_mooc/latest&quot;&gt;a diverse set of
+students&lt;/a&gt; — college students, working
+professionals, stay-at-home mothers and educators, often with little or no
+background in computer science or application development experience. A mind
+boggling ~10000 apps were built!&lt;/p&gt;
+
+&lt;p&gt;The students also had a lot of good things to say about their first experience
+with developing applications (&lt;em&gt;you can read more about it&lt;/em&gt; &lt;a href=&quot;https://medium.com/@HasuraHQ/tales-from-imad-indias-largest-mooc-de7dad2f6127&quot;&gt;here&lt;/a&gt;):&lt;/p&gt;
+
+&lt;iframe width=&quot;100%&quot; height=&quot;400&quot; src=&quot;https://www.youtube.com/embed/UAaFOMGr21E&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;None of this would have been easy without Kubernetes (&lt;em&gt;and Hasura, of course&lt;/em&gt;).&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;You can check out the IMAD console in action here:
+&lt;a href=&quot;https://cloud.imad.hasura.io/&quot;&gt;https://cloud.imad.hasura.io&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Hasura is a PostgreSQL BaaS + Kubernetes PaaS. &lt;em&gt;With dollops of sass&lt;/em&gt;. Check it
+out here:
+&lt;a href=&quot;https://hasura.io/?utm_source=blog&amp;amp;utm_medium=footer&amp;amp;utm_content=imad_k8s&quot;&gt;https://hasura.io&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;This post first appead on &lt;a href=&quot;https://blog.hasura.io/using-kubernetes-to-power-asias-largest-mooc-2ea3bfbf1d15&quot;&gt;Hasura Blog: Using Kubernetes to power Asia’s largest MOOC&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 05 Apr 2017 00:26:00 +0000</pubDate>
+        <link>https://shahidh.in/blog/2017/04/05/using-kubernetes-to-power-asias-largest-mooc/</link>
+        <guid isPermaLink="true">https://shahidh.in/blog/2017/04/05/using-kubernetes-to-power-asias-largest-mooc/</guid>
+        
+        
+        <category>blog</category>
+        
+      </item>
+    
   </channel>
 </rss>

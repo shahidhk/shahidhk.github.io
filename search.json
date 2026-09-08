@@ -1,15 +1,21 @@
----
-layout: none
----
 [
-  {% for post in site.posts %}
+  
   {
-    "title"    : "{{ post.title | escape }}",
-    "category" : "{{ post.category }}",
-    "tags"     : "{{ post.tags | join: ', ' | escape }}",
-    "url"      : "{{ site.baseurl }}{{ post.url }}",
-    "date"     : "{{ post.date | date: '%Y-%m-%d' }}",
-    "desc"     : "{{ post.summary | strip_html | escape }}"
-    } {% unless forloop.last %},{% endunless %}
-    {% endfor %}
+    "title"    : "Building a shared password manager on Google Sheets",
+    "category" : "",
+    "tags"     : "",
+    "url"      : "/blog/2019/01/26/building-a-shared-password-manager-on-google-sheets/",
+    "date"     : "2019-01-26",
+    "desc"     : "Using Google Apps script, Google Sheets can be turned into a shared password manager, especially helpful to store passwords for shared accounts in a team"
+    } ,
+    
+  {
+    "title"    : "Using Kubernetes to power Asia’s largest MOOC",
+    "category" : "",
+    "tags"     : "",
+    "url"      : "/blog/2017/04/05/using-kubernetes-to-power-asias-largest-mooc/",
+    "date"     : "2017-04-05",
+    "desc"     : "Last year, we ran a MOOC on application development called IMAD (Introduction to Modern Application Development) which saw over 83,000 registrations."
+    } 
+    
   ]

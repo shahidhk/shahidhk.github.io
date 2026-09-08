@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Using Kubernetes to power Asia’s largest MOOC — Shahidh K Muhammed</title>
+<meta name="description" content="Personal website and blog">
+
+<link rel="stylesheet" href="/css/blog.css">
+<link rel="alternate" type="application/rss+xml" title="Shahidh K Muhammed" href="/feed.xml">
+
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/favicons/manifest.json">
+<link rel="shortcut icon" href="/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
+<meta name="msapplication-config" content="/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+</head>
+  <body>
+    <nav class="site-nav">
+  <a href="/">home</a>
+  <a href="/blog/">blog</a>
+  <a href="/posts/">all posts</a>
+  <a href="/posts-by-categories/">categories</a>
+  <a href="/search/">search</a>
+  <a href="/feed.xml">feed</a>
+</nav>
+    <div class="blog-page">
+      <aside class="sidebar">
+        <div class="site-name">shahidh.in</div>
+        <nav aria-label="Blog sections">
+          <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/blog/">blog</a></li>
+            <li><a href="/posts/">all posts</a></li>
+            <li><a href="/posts-by-categories/">categories</a></li>
+            <li><a href="/search/">search</a></li>
+            <li><a href="/feed.xml">feed</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <main class="main-column">
+        
+
+<div class="post-header">
+  <h1>Using Kubernetes to power Asia’s largest MOOC</h1>
+  <p class="post-meta">
+    April 5, 2017
+    
+    · <a href="/posts-by-categories/#blog-ref">blog</a>
+    
+    · 3 minute read
+  </p>
+</div>
+
+<div class="profile-section">
+  <div class="article-body">
+    <p>Last year, we ran a MOOC on application development called <a href="http://imad.tech/">IMAD (Introduction
+to Modern Application Development)</a> which saw over <strong>83,000</strong>
+registrations.</p>
+
+<h2 id="the-application-design">The application design</h2>
+
+<p>To begin with, we were sure that asking students to use their machines for
+programming would not be a good idea. The audience for an online course would
+have huge variations in terms of hardware, operating systems etc. Providing
+instructions or guidance for multiple platforms throughout the course would have
+been an operational nightmare.</p>
+
+<blockquote>
+  <p>But, everybody has a web browser, and we decided to make use of it.</p>
+</blockquote>
+
+<p>As our main focus was on developing web applications, an immediate requirement
+of a platform for students to publish their applications also became apparent.</p>
+
+<p>At <a href="https://hasura.io">Hasura</a>, we had been using <a href="https://kubernetes.io">Kubernetes</a>
+for deploying production workloads for
+some time then. Since, we would have needed to provide isolated runtimes for all
+our students to build and deploy their applications, it became clear to us from
+the very beginning that Kubernetes would be the way to go.</p>
+
+<p>Our plan was to create a web application which lets users write code using a
+browser and deploy it in real-time. After comparing a few different models, we
+decided to create a Kubernetes deployment and service for each user, hosting
+their code on GitHub and running it inside a nodeJS container. Each user would
+be given a subdomain and all requests were to be reverse proxied to the
+corresponding Kubernetes service using nginx.</p>
+
+<h2 id="the-application-workflow">The application workflow</h2>
+
+<p>Short demo of the online coding platform at <a href="https://cloud.imad.hasura.io/">https://cloud.imad.hasura.io</a>:</p>
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/5bF6wQr_9_Y?ecver=1" frameborder="0" allowfullscreen=""></iframe>
+
+<p>A user logs in using GitHub and, using <a href="https://developer.github.com/v3/">GitHub API v3</a>, we fork a template repository into the
+user’s GitHub account. Files from this repository are then fetched for the user
+to edit using <a href="https://ace.c9.io/">Ace Editor</a>. All edits made to the files are
+committed to the user’s repository. We eliminated the need to use our own
+storage backend for users’ code as well as gave all students, mostly first time
+developers, a taste of GitHub by doing this. When a user triggers a deployment,
+our API server creates a
+<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">deployment</a>
+and a
+<a href="https://kubernetes.io/docs/concepts/services-networking/service/">service</a> on a
+dedicated Kubernetes cluster. The deployment has a <a href="https://kubernetes.io/docs/concepts/storage/volumes/#gitrepo">gitRepo
+volume</a>* *with the
+user’s repository, thereby pulling the user’s latest code on to a pre-built
+nodeJS docker image. An nginx
+<a href="https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/">daemonset</a>,
+running on all nodes, directs incoming HTTP traffic to the user’s containers
+based on the subdomain, thereby serving their web-app.</p>
+
+<p><img src="/assets/uploads/posts/imad-arch.png" alt="System architecture using Kubernetes" /></p>
+
+<p>The Kubernetes cluster was initially hosted on Microsoft Azure and then migrated
+to Google Container Engine (<em>effortlessly</em>).</p>
+
+<h3 id="the-result">The Result</h3>
+
+<p>Over the duration of the course, we saw participation from <a href="https://medium.com/@IMAD_mooc/latest">a diverse set of
+students</a> — college students, working
+professionals, stay-at-home mothers and educators, often with little or no
+background in computer science or application development experience. A mind
+boggling ~10000 apps were built!</p>
+
+<p>The students also had a lot of good things to say about their first experience
+with developing applications (<em>you can read more about it</em> <a href="https://medium.com/@HasuraHQ/tales-from-imad-indias-largest-mooc-de7dad2f6127">here</a>):</p>
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/UAaFOMGr21E" frameborder="0" allowfullscreen=""></iframe>
+
+<p>None of this would have been easy without Kubernetes (<em>and Hasura, of course</em>).</p>
+
+<hr />
+
+<p>You can check out the IMAD console in action here:
+<a href="https://cloud.imad.hasura.io/">https://cloud.imad.hasura.io</a></p>
+
+<p>Hasura is a PostgreSQL BaaS + Kubernetes PaaS. <em>With dollops of sass</em>. Check it
+out here:
+<a href="https://hasura.io/?utm_source=blog&amp;utm_medium=footer&amp;utm_content=imad_k8s">https://hasura.io</a></p>
+
+<p><em>This post first appead on <a href="https://blog.hasura.io/using-kubernetes-to-power-asias-largest-mooc-2ea3bfbf1d15">Hasura Blog: Using Kubernetes to power Asia’s largest MOOC</a></em></p>
+
+  </div>
+
+  
+
+  
+  <div class="feedback">
+    I <i>love</i> feedback. Let me know what you think of this article in the comments below!
+  </div>
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </div>
+  
+
+  <div class="post-nav">
+    
+    
+    <div>
+      <a href="/blog/2019/01/26/building-a-shared-password-manager-on-google-sheets/">Building a shared password manager on Google Sheets →</a>
+      <p class="date">Published January 26, 2019</p>
+    </div>
+    
+  </div>
+</div>
+
+
+<script type="text/javascript">
+function disqus_config() { this.experiment.enable_scroll_container = true; }
+var disqus_shortname = "shahidhkmuhammed";
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+      </main>
+    </div>
+    <footer class="site-footer">
+  <a href="https://twitter.com/shahidh_k" target="_blank" rel="noopener noreferrer">twitter</a>
+  <a href="https://github.com/shahidhk" target="_blank" rel="noopener noreferrer">github</a>
+  <a href="mailto:hi@shahidh.in">email</a>
+</footer>
+  </body>
+</html>
