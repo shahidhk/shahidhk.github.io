@@ -1,23 +1,17 @@
 ---
 layout: default
+title: "Search"
 ---
 
-<div class="container-fluid index">
-  <div class="row index all-posts">
-
-    <h1 class="header author-header">Search</h1>
-
-    <div id="search-container">
-      <input type="text" id="search-input" placeholder="Type here...">
-      <div class="col-md-12 content-panel articles">
-        <ul id="results-container"><small>Start typing to see some results</small></ul>
-      </div>
-    </div>
-
+<div class="profile-section">
+  <div class="section-bar">
+    <h2>search</h2>
+  </div>
+  <div id="search-container">
+    <input type="text" id="search-input" placeholder="type here...">
+    <ul id="results-container"><small>start typing to see results</small></ul>
   </div>
 </div>
-
-<hr class="search-hr" />
 
 <script src="{{ site.baseurl }}/js/jekyll-search.js" type="text/javascript"></script>
 
@@ -26,7 +20,7 @@ layout: default
     searchInput: document.getElementById('search-input'),
     resultsContainer: document.getElementById('results-container'),
     dataSource: '{{ site.baseurl }}/search.json',
-    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}<\/a><\/li>',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}<\/a><small>{date}<\/small><\/li>',
     noResultsText: 'No results found',
     limit: 10,
     fuzzy: true,

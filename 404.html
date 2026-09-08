@@ -1,48 +1,26 @@
 ---
 layout: default
-title: 404
+title: "404"
 permalink: /404.html
 ---
 
-<div class="container-fluid index error">
-  <div class="row">
-
-    <div class="col-md-12 content-panel articles">
-      <h1 class="header author-header">404</h1>
-
-      <div class="error-text">
-        Sorry but this page doesn't seem to exist.
-      </div>
-
-      <div class="error-text">
-        <a href="{{ site.baseurl }}/">Home</a> |
-        <a href="{{ site.baseurl }}/posts/">All Posts</a> |
-        <a href="{{ site.baseurl }}/search/">Search</a>
-      </div>
-
-      {% include social_links.html %}
-
-    </div>
-
+<div class="profile-section">
+  <div class="post-header">
+    <h1>404</h1>
+    <p>sorry, this page doesn't seem to exist.</p>
   </div>
-
-  <div class="content-panel related">
+  <div class="article-body">
+    <p>
+      <a href="{{ site.baseurl }}/">home</a> ·
+      <a href="{{ site.baseurl }}/blog/">blog</a> ·
+      <a href="{{ site.baseurl }}/posts/">all posts</a> ·
+      <a href="{{ site.baseurl }}/search/">search</a>
+    </p>
     {% for post in site.posts limit:1 %}
-      <div class="related-header">
-        <a href="{{ site.baseurl }}{{ post.url }}">Suggested Article</a>
-      </div>
-      <div class="title">
-        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-      </div>
-      <div class="excerpt">
-         {% if post.summary %}
-          {{ post.summary | strip_html | truncatewords:30 }}
-         {% else %}
-          {{ post.excerpt | strip_html | truncatewords:30 }}
-         {% endif %}
-        <a href="{{ site.baseurl }}{{ post.url }}">Continue Reading</a>
-      </div>
+    <p style="margin-top: 16px;">
+      suggested article: <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a><br>
+      <small style="color: var(--muted);">{% if post.summary %}{{ post.summary | strip_html | truncatewords: 30 }}{% else %}{{ post.excerpt | strip_html | truncatewords: 30 }}{% endif %}</small>
+    </p>
     {% endfor %}
   </div>
-
 </div>
