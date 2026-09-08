@@ -18,6 +18,9 @@ body {
   color: var(--text);
   background: #fff;
   font: 14px/1.45 Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 h1, h2, h3, p { margin: 0; }
@@ -36,20 +39,26 @@ a:hover { color: var(--accent); }
   flex-wrap: wrap;
   gap: 4px 20px;
   align-items: center;
-  margin-bottom: 18px;
+  width: calc(100% - 32px);
+  max-width: 980px;
+  margin: 0 auto;
   padding: 8px 0;
   border-bottom: 1px solid #ccc;
   font: 12px/1.4 var(--mono);
+  flex-shrink: 0;
 }
 
 .site-footer {
-  margin-top: 28px;
+  width: calc(100% - 32px);
+  max-width: 980px;
+  margin: 0 auto 16px;
   padding-top: 10px;
   border-top: 1px solid #ccc;
   font: 12px/1.6 var(--mono);
   display: flex;
   flex-wrap: wrap;
   gap: 4px 20px;
+  flex-shrink: 0;
 }
 
 .blog-page {
@@ -58,9 +67,10 @@ a:hover { color: var(--accent); }
   gap: 24px;
   width: calc(100% - 32px);
   max-width: 980px;
-  margin: 24px auto;
+  margin: 18px auto 0;
   padding-bottom: 24px;
   align-items: start;
+  flex: 1 0 auto;
 }
 
 .sidebar {
