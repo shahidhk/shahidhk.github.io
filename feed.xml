@@ -3,8 +3,8 @@
   <channel>
     <title>Shahidh K Muhammed</title>
     <description>Personal website and blog</description>
-    <link>https://shahidh.in/</link>
-    <atom:link href="https://shahidh.in/feed.xml" rel="self" type="application/rss+xml" />
+    <link>https://skm.today/</link>
+    <atom:link href="https://skm.today/feed.xml" rel="self" type="application/rss+xml" />
     <pubDate>Tue, 08 Sep 2026 05:41:18 +0000</pubDate>
     <lastBuildDate>Tue, 08 Sep 2026 05:41:18 +0000</lastBuildDate>
     <generator>Jekyll v4.4.1</generator>
@@ -235,8 +235,8 @@ Clipboard&lt;/code&gt; button if you need to copy the password.&lt;/p&gt;
 Looking forward for your suggestions and contributions.&lt;/p&gt;
 </description>
         <pubDate>Sat, 26 Jan 2019 00:00:00 +0000</pubDate>
-        <link>https://shahidh.in/blog/2019/01/26/building-a-shared-password-manager-on-google-sheets/</link>
-        <guid isPermaLink="true">https://shahidh.in/blog/2019/01/26/building-a-shared-password-manager-on-google-sheets/</guid>
+        <link>https://skm.today/blog/2019/01/26/building-a-shared-password-manager-on-google-sheets/</link>
+        <guid isPermaLink="true">https://skm.today/blog/2019/01/26/building-a-shared-password-manager-on-google-sheets/</guid>
         
         
         <category>blog</category>
@@ -333,8 +333,8 @@ out here:
 &lt;p&gt;&lt;em&gt;This post first appead on &lt;a href=&quot;https://blog.hasura.io/using-kubernetes-to-power-asias-largest-mooc-2ea3bfbf1d15&quot;&gt;Hasura Blog: Using Kubernetes to power Asia’s largest MOOC&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 05 Apr 2017 00:26:00 +0000</pubDate>
-        <link>https://shahidh.in/blog/2017/04/05/using-kubernetes-to-power-asias-largest-mooc/</link>
-        <guid isPermaLink="true">https://shahidh.in/blog/2017/04/05/using-kubernetes-to-power-asias-largest-mooc/</guid>
+        <link>https://skm.today/blog/2017/04/05/using-kubernetes-to-power-asias-largest-mooc/</link>
+        <guid isPermaLink="true">https://skm.today/blog/2017/04/05/using-kubernetes-to-power-asias-largest-mooc/</guid>
         
         
         <category>blog</category>
