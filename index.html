@@ -1,91 +1,375 @@
----
-layout: layout
-title: "Shahidh Muhammed - Profile"
----
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shahidh Muhammed — engineering at PromptQL / Hasura, advisory roles, education, and contact.">
+  <title>Shahidh Muhammed — Profile</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --link: #0000ee;
+      --visited: #551a8b;
+      --accent: #800000;
+      --text: #222;
+      --muted: #666;
+      --line: #ccc;
+      --panel: #eee;
+      --mono: "Courier New", Courier, monospace;
+    }
 
-<section class="glass-panel" style="margin-top: 2rem; position: relative; overflow: hidden;">
-  <!-- Subtle background glow -->
-  <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(56, 189, 248, 0.2); filter: blur(60px); border-radius: 50%; z-index: 0;"></div>
-  
-  <div class="flex-row" style="position: relative; z-index: 1;">
-    <div style="flex: 0 0 200px; text-align: center;">
-      <!-- Use the existing photo, properly styled -->
-      <img src="/photo.jpg" alt="Shahidh Muhammed" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; border: 4px solid rgba(255,255,255,0.1); box-shadow: var(--glass-shadow);" />
-    </div>
-    <div class="flex-col" style="flex: 1;">
-      <h1 style="font-size: 3rem; margin-bottom: 0;">Shahidh <span class="text-gradient">Muhammed</span></h1>
-      <h2 class="subtitle" style="margin-top: -0.5rem; font-size: 1.25rem;">Director of Engineering @ PromptQL (Hasura)</h2>
-      <p style="margin-top: 1rem; font-size: 1.05rem; max-width: 600px; color: var(--text-secondary);">
-        Hello! I'm an engineering leader. Currently leading Platform engineering at PromptQL by Hasura. From IIT Madras to building enterprise graphQL systems, I'm passionate about scalable architecture and deep tech execution.
-      </p>
-      
-      <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-        <a href="mailto:me@shahidh.in" class="skill-pill" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
-          <i class="fa-solid fa-envelope"></i> Email Me
-        </a>
-        <a href="https://www.linkedin.com/in/shahidh-k-muhammed/" target="_blank" class="skill-pill" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
-          <i class="fa-brands fa-linkedin"></i> LinkedIn
-        </a>
-        <a href="https://github.com/shahidhk" target="_blank" class="skill-pill" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
-          <i class="fa-brands fa-github"></i> GitHub
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
+    * { box-sizing: border-box; }
 
-<div class="flex-row" style="align-items: flex-start; margin-top: 2rem;">
-  
-  <!-- Experience Timeline -->
-  <section class="glass-panel" style="flex: 2;">
-    <h2 style="margin-bottom: 2rem; font-size: 1.75rem;"><i class="fa-solid fa-briefcase text-gradient" style="margin-right: 10px;"></i>Experience</h2>
-    
-    <div class="timeline-item">
-      <h3 style="font-size: 1.25rem;">Director of Engineering, PromptQL</h3>
-      <div class="subtitle" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Jul 2022 - Present | San Francisco, CA</div>
-      <p style="color: var(--text-secondary); font-size: 0.95rem;">Leading Platform engineering at PromptQL (Hasura).</p>
-    </div>
-    
-    <div class="timeline-item">
-      <h3 style="font-size: 1.25rem;">Engineering Manager & Architect, Hasura Cloud</h3>
-      <div class="subtitle" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Jan 2020 - Jul 2022 | Bengaluru, India</div>
-      <p style="color: var(--text-secondary); font-size: 0.95rem;">Managed the engineering team responsible for Hasura Cloud infrastructure and platform features.</p>
-    </div>
-    
-    <div class="timeline-item">
-      <h3 style="font-size: 1.25rem;">Technical Lead & Architect</h3>
-      <div class="subtitle" style="font-size: 0.9rem; margin-bottom: 0.5rem;">May 2019 - Jan 2020 | Bengaluru, India</div>
-      <p style="color: var(--text-secondary); font-size: 0.95rem;">Led the development of Hasura Pro Enterprise products.</p>
-    </div>
-    
-    <div class="timeline-item" style="padding-bottom: 0;">
-      <h3 style="font-size: 1.25rem;">Senior Software Engineer</h3>
-      <div class="subtitle" style="font-size: 0.9rem; margin-bottom: 0.5rem;">Jul 2017 - May 2019 | Bengaluru, India</div>
-      <p style="color: var(--text-secondary); font-size: 0.95rem;">Core contributor to Hasura GraphQL Engine, Gitkube, and Graphqurl.</p>
-    </div>
-  </section>
-  
-  <!-- Sidebar (Education & Skills) -->
-  <div class="flex-col" style="flex: 1; gap: 2rem;">
-    <!-- Education -->
-    <section class="glass-panel">
-      <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;"><i class="fa-solid fa-graduation-cap text-gradient" style="margin-right: 10px;"></i>Education</h2>
-      <h3 style="font-size: 1.1rem;">Indian Institute of Technology, Madras</h3>
-      <div class="subtitle" style="font-size: 0.85rem; margin-bottom: 0.5rem;">2012 - 2017</div>
-      <p style="color: var(--text-secondary); font-size: 0.9rem;">Integrated B.Tech & M.Tech in Engineering Design.</p>
-    </section>
-    
-    <!-- Advising -->
-    <section class="glass-panel">
-      <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;"><i class="fa-solid fa-lightbulb text-gradient" style="margin-right: 10px;"></i>Advisory</h2>
-      <div style="margin-bottom: 1rem;">
-        <h3 style="font-size: 1.1rem;">Crink.App</h3>
-        <div class="subtitle" style="font-size: 0.85rem;">Advisor (Mar 2022 - Present)</div>
-      </div>
-      <div>
-        <h3 style="font-size: 1.1rem;">Blend-ed</h3>
-        <div class="subtitle" style="font-size: 0.85rem;">Advisor (Jun 2021 - Present)</div>
-      </div>
-    </section>
+    body {
+      margin: 0;
+      color: var(--text);
+      background: #fff;
+      font: 14px/1.45 Arial, Helvetica, sans-serif;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    a {
+      color: var(--link);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    a:visited { color: var(--visited); }
+    a:hover, button:hover { color: var(--accent); }
+
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: 3px;
+    }
+
+    button {
+      padding: 2px 0;
+      border: 0;
+      background: transparent;
+      color: var(--link);
+      font: inherit;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+    }
+
+    .profile-page {
+      display: grid;
+      grid-template-columns: 145px minmax(0, 1fr);
+      gap: 24px;
+      width: calc(100% - 32px);
+      max-width: 980px;
+      margin: 24px auto;
+      padding-bottom: 24px;
+      align-items: start;
+    }
+
+    .sidebar {
+      border: 1px solid var(--line);
+      background: #f5f5f5;
+    }
+
+    .site-name {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      color: var(--accent);
+      font: bold 15px/1.4 var(--mono);
+    }
+
+    .sidebar ul {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 8px 12px;
+      list-style: none;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 5px 0;
+      font-size: 13px;
+    }
+
+    .main-column, .entry-copy { min-width: 0; }
+
+    .profile-header { padding: 0 0 18px; }
+
+    h1 {
+      color: var(--accent);
+      font-size: 26px;
+      font-weight: normal;
+      line-height: 1.2;
+    }
+
+    .location {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .profile-section {
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 12px;
+    }
+
+    .profile-section:last-child { margin-bottom: 0; }
+
+    .section-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 4px 12px;
+      padding: 6px 8px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .section-bar h2 { font: bold 12px/1.4 var(--mono); }
+    .section-context { font-size: 12px; }
+
+    .entry {
+      display: grid;
+      grid-template-columns: 138px minmax(0, 1fr);
+      gap: 14px;
+      align-items: baseline;
+      padding: 12px 8px;
+    }
+
+    .entry + .entry { border-top: 1px dotted #ddd; }
+
+    .entry-date {
+      color: var(--muted);
+      font: 11px/1.5 var(--mono);
+      white-space: nowrap;
+    }
+
+    .entry-copy h3 {
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.35;
+    }
+
+    .entry-copy p {
+      margin-top: 5px;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-content { padding: 12px 8px; }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 12px 24px;
+    }
+
+    .email-group {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .email-group button { font-size: 12px; }
+
+    .copy-status {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .copy-status:not(:empty) { margin-top: 8px; }
+
+    @media (max-width: 700px) {
+      .profile-page {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+        margin-top: 16px;
+      }
+
+      .sidebar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .site-name {
+        padding: 10px 12px;
+        border: 0;
+      }
+
+      .sidebar nav { flex: 1 1 300px; }
+
+      .sidebar ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 2px 18px;
+        padding: 4px 12px;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .entry {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4px;
+      }
+
+      .entry-date { white-space: normal; }
+      h1 { font-size: 25px; }
+    }
+
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 20px;
+      align-items: center;
+      margin-bottom: 18px;
+      padding: 8px 0;
+      border-bottom: 1px solid #ccc;
+      font: 12px/1.4 var(--mono);
+    }
+
+    .site-footer {
+      margin-top: 28px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+      font: 12px/1.6 var(--mono);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 20px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav">
+    <a href="/blog">blog</a>
+    <a href="files/Resume_Shahidh_K_Muhammed.pdf" target="_blank" rel="noopener noreferrer">resume</a>
+  </nav>
+  <div class="profile-page">
+    <aside class="sidebar">
+      <div class="site-name">shahidh.in</div>
+      <nav aria-label="Profile sections">
+        <ul>
+          <li><a href="#experience">experience</a></li>
+          <li><a href="#advisory">advisory</a></li>
+          <li><a href="#education">education</a></li>
+          <li><a href="#contact">contact</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-column">
+      <header class="profile-header">
+        <h1>Shahidh Muhammed</h1>
+        <p class="location">San Francisco, California</p>
+      </header>
+
+      <section class="profile-section" id="experience" aria-labelledby="experience-heading">
+        <div class="section-bar">
+          <h2 id="experience-heading">experience</h2>
+          <span class="section-context"><a href="https://promptql.io/" target="_blank" rel="noopener noreferrer">PromptQL</a> / <a href="https://hasura.io/" target="_blank" rel="noopener noreferrer">Hasura</a></span>
+        </div>
+
+        <div class="entry">
+          <p class="entry-date"><time datetime="2022-07">Jul 2022</time> – present</p>
+          <div class="entry-copy">
+            <h3>Director of Engineering</h3>
+            <p>Leading platform engineering.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <p class="entry-date"><time datetime="2020-01">Jan 2020</time> – <time datetime="2022-07">Jul 2022</time></p>
+          <div class="entry-copy">
+            <h3>Engineering Manager & Architect, Hasura Cloud</h3>
+            <p>Managed the engineering team for Hasura’s <a href="https://hasura.io/cloud/" target="_blank" rel="noopener noreferrer">cloud platform</a>.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <p class="entry-date"><time datetime="2019-05">May 2019</time> – <time datetime="2020-01">Jan 2020</time></p>
+          <div class="entry-copy">
+            <h3>Technical Lead & Architect, Enterprise Products</h3>
+            <p>Led development of <a href="https://hasura.io/blog/introducing-hasura-pro/" target="_blank" rel="noopener noreferrer">Hasura Pro</a>.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <p class="entry-date"><time datetime="2017-07">Jul 2017</time> – <time datetime="2019-05">May 2019</time></p>
+          <div class="entry-copy">
+            <h3>Senior Software Engineer</h3>
+            <p>Worked on <a href="https://github.com/hasura/graphql-engine" target="_blank" rel="noopener noreferrer">Hasura GraphQL Engine</a>, <a href="https://github.com/hasura/gitkube" target="_blank" rel="noopener noreferrer">Gitkube</a>, and <a href="https://github.com/hasura/graphqurl" target="_blank" rel="noopener noreferrer">Graphqurl</a>.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="profile-section" id="advisory" aria-labelledby="advisory-heading">
+        <div class="section-bar"><h2 id="advisory-heading">advisory</h2></div>
+        <div class="entry">
+          <p class="entry-date"><time datetime="2022-03">Mar 2022</time> – present</p>
+          <div class="entry-copy"><h3>Advisor, <a href="https://www.crink.app/" target="_blank" rel="noopener noreferrer">Crink.App</a></h3></div>
+        </div>
+        <div class="entry">
+          <p class="entry-date"><time datetime="2021-06">Jun 2021</time> – present</p>
+          <div class="entry-copy"><h3>Advisor, <a href="https://www.blend-ed.com/" target="_blank" rel="noopener noreferrer">Blend-ed</a></h3></div>
+        </div>
+      </section>
+
+      <section class="profile-section" id="education" aria-labelledby="education-heading">
+        <div class="section-bar"><h2 id="education-heading">education</h2></div>
+        <div class="entry">
+          <p class="entry-date"><time datetime="2012">2012</time> – <time datetime="2017">2017</time></p>
+          <div class="entry-copy">
+            <h3><a href="https://www.iitm.ac.in/" target="_blank" rel="noopener noreferrer">Indian Institute of Technology, Madras</a></h3>
+            <p>Integrated BTech + MTech in Engineering Design.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="profile-section" id="contact" aria-labelledby="contact-heading">
+        <div class="section-bar"><h2 id="contact-heading">contact</h2></div>
+        <div class="contact-content">
+          <div class="contact-links">
+            <span class="email-group">
+              <a id="email" href="mailto:hi@shahidh.in" target="_blank" rel="noopener noreferrer">hi@shahidh.in</a>
+              <button id="copy-email" type="button" aria-label="Copy email address" hidden>copy</button>
+            </span>
+            <a href="https://www.linkedin.com/in/shahidh-k-muhammed" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+          <p id="copy-status" class="copy-status" role="status"></p>
+        </div>
+      </section>
+    </main>
   </div>
-</div>
+
+  <footer class="site-footer">
+    <a href="https://twitter.com/shahidh_k" target="_blank" rel="noopener noreferrer">twitter</a>
+    <a href="https://github.com/shahidhk" target="_blank" rel="noopener noreferrer">github</a>
+    <a href="mailto:hi@shahidh.in">email</a>
+  </footer>
+
+  <script>
+    (() => {
+      const button = document.getElementById('copy-email');
+      const email = document.getElementById('email');
+      const status = document.getElementById('copy-status');
+      let resetTimer;
+
+      button.hidden = false;
+      button.addEventListener('click', async () => {
+        clearTimeout(resetTimer);
+        try {
+          await navigator.clipboard.writeText(email.textContent.trim());
+          status.textContent = 'Email copied.';
+          resetTimer = setTimeout(() => { status.textContent = ''; }, 2500);
+        } catch {
+          status.textContent = 'Copy unavailable. Select the email address to copy it manually.';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
