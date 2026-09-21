@@ -225,43 +225,15 @@
       h1 { font-size: 25px; }
     }
 
-    .site-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 20px;
-      align-items: center;
-      width: calc(100% - 32px);
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 8px 0;
-      border-bottom: 1px solid #ccc;
-      font: 12px/1.4 var(--mono);
-      flex-shrink: 0;
-    }
-
-    .site-footer {
-      width: calc(100% - 32px);
-      max-width: 980px;
-      margin: 0 auto 16px;
-      padding-top: 10px;
-      border-top: 1px solid #ccc;
-      font: 12px/1.6 var(--mono);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 20px;
-      flex-shrink: 0;
-    }
   </style>
 </head>
 <body>
-  <nav class="site-nav">
-    <a href="/blog">blog</a>
-  </nav>
   <div class="profile-page">
     <aside class="sidebar">
       <div class="site-name">skm.today</div>
       <nav aria-label="Profile sections">
         <ul>
+          <li><a href="/blog">blog</a></li>
           <li><a href="#experience">experience</a></li>
           <li><a href="#advisory">advisory</a></li>
           <li><a href="#education">education</a></li>
@@ -347,18 +319,14 @@
               <button id="copy-email" type="button" aria-label="Copy email address" hidden>copy</button>
             </span>
             <a href="https://www.linkedin.com/in/shahidh-k-muhammed" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://twitter.com/shahidh_k" target="_blank" rel="noopener noreferrer">twitter</a>
+            <a href="https://github.com/shahidhk" target="_blank" rel="noopener noreferrer">github</a>
           </div>
           <p id="copy-status" class="copy-status" role="status"></p>
         </div>
       </section>
     </main>
   </div>
-
-  <footer class="site-footer">
-    <a href="https://twitter.com/shahidh_k" target="_blank" rel="noopener noreferrer">twitter</a>
-    <a href="https://github.com/shahidhk" target="_blank" rel="noopener noreferrer">github</a>
-    <a href="mailto:mail@skm.today">email</a>
-  </footer>
 
   <script>
     (() => {
